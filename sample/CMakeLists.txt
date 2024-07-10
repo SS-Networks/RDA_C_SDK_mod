@@ -41,16 +41,15 @@ SET(LIBS
 	"pthread"
 )
 
-# OPENAPI
 SET(EXAMPLES 
-	Activation
-	ActivationLeafThing
+	#Activation
+	#ActivationLeafThing
 	Attribute
 	Connection
 	Firmware
 	Notification
-	Registration
-	SSL
+	#Registration
+	#SSL
 	#emulator_forTest
 )
 
