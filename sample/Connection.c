@@ -16,12 +16,24 @@
 
 int main(int argc, char** argv)
 {
-	char* authCode =  "adf022d0824dc28c";
-	char* userId = "";
-	char* userPw = "";
+	// TODO: add Connection.example_run.sh file
+	if (argc < 6) {
+        printf("Usage: %s <authCode> <userId> <userPw> <siteId> <thingName>\n", argv[0]);
+        return 1;
+    }
 
-	char* siteId =  "C000000037";
-	char* thingName = "999999.1324";
+    char* authCode  = argv[1];
+    char* userId    = argv[2];
+    char* userPw    = argv[3];
+	
+    char* siteId    = argv[4];
+    char* thingName = argv[5];
+
+    printf("authCode: %s\n", authCode);
+    printf("userId: %s\n", userId);
+    printf("userPw: %s\n", userPw);
+    printf("siteId: %s\n", siteId);
+    printf("thingName: %s\n", thingName);
 
     // Utilize the basic information of the object as parameters.
 	IotClient* client = createIotClient(authCode, userId, userPw, siteId, thingName);
