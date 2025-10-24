@@ -19,11 +19,19 @@
 
 int main(int argc, char **argv) {
 
-    char *siteId = "C000000037";
-    char *thingName = "999999.1324";
-    char *authCode = "adf022d0824dc28c";
-    char *userId = "";
-    char *userPw = "";
+	if (argc < 7) {
+        printf("Usage: %s <authCode> <userId> <userPw> <siteId> <thingName> <jsonData> \n", argv[0]);
+        return 1;
+    }
+
+    char* authCode  = argv[1];
+    char* userId    = argv[2];
+    char* userPw    = argv[3];
+	
+    char* siteId    = argv[4];
+    char* thingName = argv[5];
+
+    char *jsonStr   = argv[6];
 
     // Utilize the basic information of the object as parameters.
     IotClient *client = createIotClient(authCode, userId, userPw, siteId, thingName);
@@ -32,21 +40,16 @@ int main(int argc, char **argv) {
 
             //Create data in JSON format and transmit it once every 10 seconds.
             char *msgCode = NULL;
-            char *baseStr = "{\"sample1\": %d, \"sample2\": %d, \"sample3\": %d}";
 
-            char dataStr[LONG_STR_LEN] = {0,};
-
-            int value1 = 1.5;
-            int value2 = 2.2;
-            int value3 = 3.3;
-
-            sprintf(dataStr, baseStr, value1, value2, value3);
-            client->sendAttributes(msgCode, dataStr);
+            client->sendAttributes(msgCode, jsonStr);
+            // note: https://github.com/RDA-DATA/RDA_C_SDK/blob/main/sdk/iotclient/IotClient.c#L1481
+            // message is sent using "void* thread_sender(void* args)" function
+            //  which is a while loop with sleep(1) interval
+            //  so, just to be safe, sleep 2 seconds:
+            sleep(2);
         }
         destroyIotClient(client);
     }
 
     return 0;
 }
-
-
